@@ -1,0 +1,34 @@
+---
+- name: Ensure magnum client is installed
+  pip:
+    name: python-magnumclient
+    state: present
+    virtualenv: "{{ os_container_clusters_venv or omit }}"
+  become: "{{ os_container_clusters_venv == None }}"
+
+- name: Check whether container cluster templates exist
+  shell: >
+    {{ os_container_clusters_venv ~ '/bin/' if os_container_clusters_venv else '' }}magnum
+    {% for auth_name, auth_value in os_container_clusters_auth.items() %}
+    --os-{{ auth_name | replace('_', '-') }}='{{ auth_value }}'
+    {% endfor %}
+    --os-interface=public
+    cluster-template-show {{ item.name }} >/dev/null
+  with_items: "{{ os_container_clusters_templates }}"
+  register: cluster_template_show
+  changed_when: False
+  failed_when: False
+
+- name: Ensure container cluster templates exist
+  command: >
+    {{ os_container_clusters_venv ~ '/bin/' if os_container_clusters_venv else '' }}magnum
+    {% for auth_name, auth_value in os_container_clusters_auth.items() %}
+    --os-{{ auth_name | replace('_', '-') }}='{{ auth_value }}'
+    {% endfor %}
+    --os-interface=public
+    cluster-template-create
+    {% for name, value in item.item.items() %}
+    --{{ name | replace('_', '-') }}='{{ value }}'
+    {% endfor %}
+  with_items: "{{ cluster_template_show.results }}"
+  when: item.rc != 0
