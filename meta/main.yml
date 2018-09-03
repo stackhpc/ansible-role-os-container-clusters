@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: container-clusters
   author: Mark Goddard
   description: >
     Role to register magnum container cluster resources
