@@ -28,7 +28,7 @@
     --os-interface=public
     cluster-template-create
     {% for name, value in item.item.items() %}
-    --{{ name | replace('_', '-') }}='{{ value }}'
+    --{{ name | replace('_', '-') }}{% if value is not none %}='{{ value }}'{% endif %}
     {% endfor %}
   with_items: "{{ cluster_template_show.results }}"
   when: item.rc != 0

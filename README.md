@@ -54,6 +54,7 @@ The following playbook registers a cluster template.
               flavor: m1.small
               image: fedora-25
               external_network: ext
+              floating_ip_disabled: # leave empty to pass as flag without assigning value
 
 Author Information
 ------------------
