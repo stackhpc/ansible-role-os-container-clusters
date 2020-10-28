@@ -21,6 +21,8 @@ virtualenv.
 `os_container_clusters_auth` is a dict containing authentication information
 compatible with the `auth` argument of `os_*` Ansible modules.
 
+`os_container_clusters_cacert` is an optional path to a CA certificate bundle.
+
 `os_container_clusters_templates` is a list of magnum container cluster
 templates to register. Each item should be a dict containing container cluster
 template attributes.
