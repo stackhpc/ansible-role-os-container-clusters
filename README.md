@@ -57,6 +57,8 @@ The following playbook registers a cluster template.
               image: fedora-25
               external_network: ext
               floating_ip_disabled: # leave empty to pass as flag without assigning value
+              labels:
+                etcd_volume_size: 3
 
 Author Information
 ------------------

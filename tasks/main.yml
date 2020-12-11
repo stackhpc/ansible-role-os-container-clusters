@@ -34,8 +34,14 @@
     --os-interface=public
     coe cluster template create {{ item.item.name }}
     {% for name, value in item.item.items() %}
-    {% if name != 'name' %}
+    {% if name not in ['name', 'labels'] %}
     --{{ name | replace('_', '-') }}{% if value is not none %}='{{ value }}'{% endif %}
+    {% elif name == 'labels' %}
+    {% if value is mapping %}
+    --labels='{{ item.item['labels'].items() | map('join', '=') | join(',') }}'
+    {% else %}
+    --labels='{{ value }}'
+    {% endif %}
     {% endif %}
     {% endfor %}
   with_items: "{{ cluster_template_show.results }}"
