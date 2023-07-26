@@ -6,43 +6,21 @@
     virtualenv: "{{ os_container_clusters_venv or omit }}"
   become: "{{ os_container_clusters_venv == None }}"
 
-- name: Check whether container cluster templates exist
-  shell: >
-    {{ os_container_clusters_venv ~ '/bin/' if os_container_clusters_venv else '' }}openstack
-    {% for auth_name, auth_value in os_container_clusters_auth.items() %}
-    --os-{{ auth_name | replace('_', '-') }}='{{ auth_value }}'
-    {% endfor %}
-    {% if os_container_clusters_cacert is defined %}
-    --os-cacert {{ os_container_clusters_cacert }}
-    {% endif %}
-    --os-interface=public
-    coe cluster template show {{ item.name }} >/dev/null
-  with_items: "{{ os_container_clusters_templates }}"
-  register: cluster_template_show
-  changed_when: False
-  failed_when: False
-
 - name: Ensure container cluster templates exist
-  command: >
-    {{ os_container_clusters_venv ~ '/bin/' if os_container_clusters_venv else '' }}openstack
-    {% for auth_name, auth_value in os_container_clusters_auth.items() %}
-    --os-{{ auth_name | replace('_', '-') }}='{{ auth_value }}'
-    {% endfor %}
-    {% if os_container_clusters_cacert is defined %}
-    --os-cacert {{ os_container_clusters_cacert }}
-    {% endif %}
-    --os-interface=public
-    coe cluster template create {{ item.item.name }}
-    {% for name, value in item.item.items() %}
-    {% if name not in ['name', 'labels'] %}
-    --{{ name | replace('_', '-') }}{% if value is not none %}='{{ value }}'{% endif %}
-    {% elif name == 'labels' %}
-    {% if value is mapping %}
-    --labels='{{ item.item['labels'].items() | map('join', '=') | join(',') }}'
-    {% else %}
-    --labels='{{ value }}'
-    {% endif %}
-    {% endif %}
-    {% endfor %}
-  with_items: "{{ cluster_template_show.results }}"
-  when: item.rc != 0
+  coe_cluster_template:
+    auth: "{{ os_container_clusters_auth }}
+    auth_type: "{{ os_container_clusters_auth_type }}"
+    labels: "{{ item.labels }}"
+    external_network_id: "{{ item.magnum_external_network }}"
+    master_flavor_id: "{{ item.master_flavor }}"
+    flavor_id: "{{ item.flavor}}"
+    image_id: "{{ item.image }}"
+    name: "{{ item.name }}"
+    coe: "{{ item.coe }}"
+    network_driver: "{{ item.network_driver }}"
+    is_master_lb_enabled: "{{ item.master_lb_enabled }}"
+    is_floating_ip_enabled: "{{ item.floating_ip_enabled }}"
+    dns_nameserver: "{{ item.dns_nameserver }}"
+    is_public: "{{ item.public }}"
+  with_items: "{{ os_container_clusters_templates }}"
+
