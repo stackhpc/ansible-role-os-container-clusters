@@ -7,11 +7,11 @@
   become: "{{ os_container_clusters_venv == None }}"
 
 - name: Ensure container cluster templates exist
-  coe_cluster_template:
+  openstack.cloud.coe_cluster_template:
     auth: "{{ os_container_clusters_auth }}"
     auth_type: "{{ os_container_clusters_auth_type }}"
     labels: "{{ item.labels }}"
-    external_network_id: "{{ item.magnum_external_network }}"
+    external_network_id: "{{ item.external_network_id }}"
     master_flavor_id: "{{ item.master_flavor }}"
     flavor_id: "{{ item.flavor}}"
     image_id: "{{ item.image }}"
