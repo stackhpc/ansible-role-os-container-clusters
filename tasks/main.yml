@@ -8,7 +8,7 @@
 
 - name: Ensure container cluster templates exist
   coe_cluster_template:
-    auth: "{{ os_container_clusters_auth }}
+    auth: "{{ os_container_clusters_auth }}"
     auth_type: "{{ os_container_clusters_auth_type }}"
     labels: "{{ item.labels }}"
     external_network_id: "{{ item.magnum_external_network }}"
