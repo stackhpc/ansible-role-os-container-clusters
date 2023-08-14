@@ -26,9 +26,10 @@
     name: "{{ item.name | default(undef(hint = 'You must provide a name')) }}"
     coe: "{{ item.coe | default(undef(hint = 'You must provide a coe')) }}"
     network_driver: "{{ item.network_driver | default(omit) }}"
-    master_lb_enabled: "{{ item.master_lb_enabled | default(omit) }}"
-    floating_ip_enabled: "{{ item.floating_ip_enabled | default(omit) }}"
+    master_lb_enabled: "{{ item.master_lb_enabled |default(omit) | bool }}"
+    floating_ip_enabled: "{{ item.floating_ip_enabled | default(omit) | bool }}"
     dns_nameserver: "{{ item.dns_nameserver | default(omit) }}"
-    public: "{{ item.public | default(omit) }}"
+    public: "{{ item.public | default(omit) | bool }}"
+    is_hidden: "{{ item.is_hidden | default(omit) | bool }}"
   with_items: "{{ os_container_clusters_templates }}"
 
