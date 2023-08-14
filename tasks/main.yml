@@ -7,6 +7,8 @@
   become: "{{ os_container_clusters_venv == None }}"
 
 - name: Ensure container cluster templates exist
+  vars:
+    ansible_python_interpreter: "{{ os_container_clusters_venv ~ '/bin/python' if os_container_clusters_venv != None else old_ansible_python_interpreter }}"
   openstack.cloud.coe_cluster_template:
     auth: "{{ os_container_clusters_auth }}"
     auth_type: "{{ os_container_clusters_auth_type }}"
