@@ -6,9 +6,12 @@
     virtualenv: "{{ os_container_clusters_venv or omit }}"
   become: "{{ os_container_clusters_venv == None }}"
 
+- name: Set a fact about the Ansible python interpreter
+  set_fact:
+    old_ansible_python_interpreter: "{{ ansible_python_interpreter | default('/usr/bin/python' + ansible_python.version.major | string) }}"
+
 - name: Ensure container cluster templates exist
   vars:
-    old_ansible_python_interpreter: "{{ ansible_python_interpreter | default('/usr/bin/python' + ansible_python.version.major | string) }}"
     ansible_python_interpreter: "{{ os_container_clusters_venv ~ '/bin/python' if os_container_clusters_venv != None else old_ansible_python_interpreter }}"
   openstack.cloud.coe_cluster_template:
     auth: "{{ os_container_clusters_auth }}"
