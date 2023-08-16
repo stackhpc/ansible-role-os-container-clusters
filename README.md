@@ -27,6 +27,10 @@ compatible with the `auth` argument of `os_*` Ansible modules.
 templates to register. Each item should be a dict containing container cluster
 template attributes.
 
+`os_container_clusters_templates_hide` (optional) whether to hide the given list of 
+cluster templates. `is_hidden` attribute can be used on individual templates to specify
+this as well. Default is False. 
+
 Dependencies
 ------------
 

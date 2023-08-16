@@ -11,3 +11,6 @@ os_container_clusters_auth: {}
 # List of magnum container cluster templates. Each item should be a dict
 # mapping container cluster template attribute names to their values.
 os_container_clusters_templates: []
+
+#Whether to hide templates or not 
+os_container_clusters_templates_hide: False

@@ -20,3 +20,4 @@ galaxy_info:
 dependencies:
   - role: stackhpc.os_openstacksdk
     os_openstacksdk_venv: "{{ os_container_clusters_venv }}"
+    os_openstacksdk_version: "1.0"
