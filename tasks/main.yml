@@ -30,7 +30,6 @@
     floating_ip_enabled: "{{ item.floating_ip_enabled | default(True) | bool }}"
     dns_nameserver: "{{ item.dns_nameserver | default(omit) }}"
     public: "{{ item.public | default(True) | bool }}"
-    is_hidden: "{{ item.is_hidden | default(False) | bool }}"
   with_items: "{{ os_container_clusters_templates }}"
 
 - name: Hide cluster templates if specified
