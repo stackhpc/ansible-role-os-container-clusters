@@ -33,7 +33,7 @@
   with_items: "{{ os_container_clusters_templates }}"
 
 - name: Hide cluster templates if specified
-  command: "{{ os_images_venv }}/bin/openstack image set --hidden {{ item.name }}"
-  with_items: "{{ os_images_list | list }}"
+  command: "{{ os_container_clusters_venv }}/bin/openstack coe cluster template update {{ item.name }} replace hidden=True"
+  with_items: "{{ os_container_clusters_templates | list }}"
   when: (item.is_hidden | default(os_container_clusters_templates_hide) | bool)
 
