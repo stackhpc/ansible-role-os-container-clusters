@@ -14,3 +14,6 @@ os_container_clusters_templates: []
 
 #Whether to hide templates or not 
 os_container_clusters_templates_hide: False
+
+#Whether to make templates public
+os_container_clusters_public: True

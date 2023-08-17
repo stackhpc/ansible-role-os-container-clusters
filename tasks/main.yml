@@ -29,7 +29,7 @@
     master_lb_enabled: "{{ item.master_lb_enabled |default(True) | bool }}"
     floating_ip_enabled: "{{ item.floating_ip_enabled | default(True) | bool }}"
     dns_nameserver: "{{ item.dns_nameserver | default(omit) }}"
-    public: "{{ item.public | default(True) | bool }}"
+    public: "{{ item.public | default(os_container_clusters_public) | bool }}"
   with_items: "{{ os_container_clusters_templates }}"
 
 - name: Hide cluster templates if specified
