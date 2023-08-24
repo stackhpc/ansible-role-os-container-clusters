@@ -12,6 +12,9 @@ os_container_clusters_auth: {}
 # mapping container cluster template attribute names to their values.
 os_container_clusters_templates: []
 
+# Upper constraints file for installation of python dependencies to upload images.
+os_container_clusters_upper_constraints_file: "https://releases.openstack.org/constraints/upper/2023.1"
+
 #Whether to hide templates or not 
 os_container_clusters_templates_hide: False
 
